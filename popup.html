@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="page1">
+    <h2>GitHub Setup</h2>
+    <button id="github-login-btn">Login with GitHub</button>
+
+    <div id="stats">
+      <p>Solved: <span id="easy">0</span> Easy, <span id="medium">0</span> Medium, <span id="hard">0</span> Hard</p>
+      <p>Streak: <span id="streak">0🔥</span></p>
+    </div>
+    <button id="exportDoc">Download Word Doc</button>
+    <button id="gotoPage2">Settings</button>
+  </div>
+
+  <div id="page2" style="display:none;">
+    <h2>Settings</h2>
+    <label>AI API Key</label>
+    <input type="text" id="aiKey" disabled>
+    <button id="editAI">Edit</button>
+    <button id="saveAI" style="display:none;">Save</button>
+    <button id="cancelAI" style="display:none;">Cancel</button>
+
+    <label>Excel API Key</label>
+    <input type="text" id="excelKey" disabled>
+    <button id="editExcel">Edit</button>
+    <button id="saveExcel" style="display:none;">Save</button>
+    <button id="cancelExcel" style="display:none;">Cancel</button>
+
+    <button id="backToPage1">Back</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
