@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "GitHub OAuth Tab-Based",
+  "version": "1.0",
+  "description": "OAuth using browser.identity.launchWebAuthFlow",
+  "browser_action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": "icon.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "identity",
+    "https://api.github.com/*",
+    "https://github.com/*",
+    "http://localhost:4000/*"  
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "icons": {
+    "48": "icon.png"
+  }
+}

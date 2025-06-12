@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>GitHub Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      width: 300px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #2ea44f;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px; /* Added margin for spacing */
+    }
+    button:hover {
+      background: #2c974b;
+    }
+    #status {
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    #repoList {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+    #repoList ul {
+      list-style: none;
+      padding: 0;
+    }
+    #repoList li {
+      background: #f9f9f9;
+      margin-bottom: 5px;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    #repoList li a {
+        text-decoration: none;
+        color: #0366d6;
+        font-weight: bold;
+    }
+    #repoList li a:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h2>GitHub Login</h2>
+  <p id="status">🔄 Checking token...</p>
+  <button id="loginBtn">Login with GitHub</button>
+  <button id="listReposBtn" style="display: none;">List My Repos</button> <button id="logoutBtn" style="background: #cb2431; display: none;">Logout</button> <div id="repoList">
+    <h3>Your Repositories</h3>
+    <p id="repoStatus">Click "List My Repos" to see them.</p>
+    <ul id="repos"></ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
