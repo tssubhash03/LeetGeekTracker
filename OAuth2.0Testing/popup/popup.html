@@ -18,38 +18,49 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px; /* Added margin for spacing */
+      margin-top: 10px;
     }
     button:hover {
       background: #2c974b;
+    }
+    #logoutBtn {
+      background: #cb2431;
+    }
+    #logoutBtn:hover {
+      background: #a9202c;
     }
     #status {
       margin-bottom: 15px;
       font-weight: bold;
     }
-    #repoList {
+    #repoSelection, #repoDetails {
       margin-top: 20px;
       border-top: 1px solid #eee;
       padding-top: 15px;
     }
-    #repoList ul {
-      list-style: none;
-      padding: 0;
+    #repoSelect {
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box; /* Include padding in width */
     }
-    #repoList li {
-      background: #f9f9f9;
-      margin-bottom: 5px;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ddd;
+    #repoDetails div {
+        background: #f9f9f9;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 5px;
     }
-    #repoList li a {
-        text-decoration: none;
-        color: #0366d6;
-        font-weight: bold;
+    #repoDetails strong {
+        display: block;
+        margin-bottom: 5px;
     }
-    #repoList li a:hover {
-        text-decoration: underline;
+    #createFolderStatus { /* New style for folder creation status */
+        margin-top: 10px;
+        font-style: italic;
+        color: #555;
     }
   </style>
 </head>
@@ -57,10 +68,23 @@
   <h2>GitHub Login</h2>
   <p id="status">🔄 Checking token...</p>
   <button id="loginBtn">Login with GitHub</button>
-  <button id="listReposBtn" style="display: none;">List My Repos</button> <button id="logoutBtn" style="background: #cb2431; display: none;">Logout</button> <div id="repoList">
-    <h3>Your Repositories</h3>
-    <p id="repoStatus">Click "List My Repos" to see them.</p>
-    <ul id="repos"></ul>
+  <button id="listReposBtn" style="display: none;">List My Repos</button>
+  <button id="logoutBtn" style="display: none;">Logout</button>
+
+  <div id="repoSelection" style="display: none;">
+    <h3>Select a Repository</h3>
+    <select id="repoSelect">
+      <option value="">-- Please select a repo --</option>
+    </select>
+    <button id="viewRepoDetailsBtn">View Details</button>
+    <button id="createFolderBtn" style="display: none; background: #0366d6;">Create Test Folder</button> <!-- New button -->
+    <p id="createFolderStatus"></p> <!-- New status message for folder creation -->
+  </div>
+
+  <div id="repoDetails">
+    <h3>Selected Repository Details</h3>
+    <p id="repoDetailsStatus">Select a repository and click 'View Details'.</p>
+    <div id="selectedRepoInfo"></div>
   </div>
 
   <script src="popup.js"></script>
