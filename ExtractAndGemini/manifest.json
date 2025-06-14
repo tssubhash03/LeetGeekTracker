@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "LeetCode Gemini Extractor",
+  "version": "1.0",
+  "description": "Extract LeetCode problem data and get Gemini AI explanation",
+  "permissions": [
+    "storage",
+    "https://leetcode.com/problems/*",
+    "https://generativelanguage.googleapis.com/"
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://leetcode.com/problems/*"],
+      "js": ["contentScript.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
