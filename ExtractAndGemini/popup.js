@@ -7,11 +7,13 @@ const status = document.getElementById("status");
 browser.storage.local.get("gemini_api_key").then(res => {
   if(res.gemini_api_key) {
     input.value = res.gemini_api_key;
+    browser.storage.local.get("gemini_api_key").then(res => {console.log(res.gemini_api_key)});
+
   }
 });
 
 saveBtn.addEventListener("click", () => {
-  const key = input.value.trim();
+  const key = input.value;
   if (!key) {
     status.style.color = "red";
     status.textContent = "API key cannot be empty.";

@@ -3,11 +3,14 @@
   "name": "LeetCode + GFG Extractor",
   "version": "1.0",
   "description": "Extract problem metadata from LeetCode and GeeksforGeeks",
-  "permissions": ["storage"],
+  "permissions": [
+    "storage",
+    "https://generativelanguage.googleapis.com/*"
+  ],
   "content_scripts": [
     {
       "matches": ["https://leetcode.com/problems/*"],
-      "js": ["leetcodeScript.js"],
+      "js": ["extractor.js", "gemini.js", "leetcodeScript.js"],
       "run_at": "document_idle"
     },
     {
