@@ -1,1 +1,1 @@
-console.log("Background script loaded - ready for GitHub auth soon!");
+console.log("✅ GFG Metadata Extractor background script loaded.");
