@@ -2,65 +2,210 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>GitHub Login</title>
+  <title>GitHub & Settings</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
-      width: 300px;
+      padding: 15px; /* Adjusted padding for better fit */
+      width: 350px; /* Increased width to accommodate elements better */
+      min-height: 200px; /* Minimum height for better layout */
+      box-sizing: border-box; /* Include padding in element's total width/height */
+      overflow-x: hidden; /* Prevent horizontal scroll during page transitions */
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 15px;
     }
     button {
       width: 100%;
       padding: 10px;
-      background: #2ea44f;
-      color: white;
-      font-size: 16px;
+      margin-top: 10px;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
-      margin-top: 10px; /* Added margin for spacing */
+      font-size: 14px;
+      color: white;
+      background-color: #007bff; /* Primary blue */
     }
     button:hover {
-      background: #2c974b;
+      opacity: 0.9;
     }
-    #status {
-      margin-bottom: 15px;
-      font-weight: bold;
+    /* Specific button styles */
+    button#loginBtn {
+      background-color: #2ea44f; /* GitHub green */
     }
-    #repoList {
+    button#logoutBtn {
+      background-color: #dc3545; /* Red for danger/logout */
+    }
+    button#listReposBtn,
+    button#viewRepoDetailsBtn,
+    button#createFolderBtn {
+      background-color: #0366d6; /* GitHub blue */
+    }
+    /* Styles for top navigation buttons */
+    .top-nav-buttons {
+        margin-bottom: 20px; /* Space below the nav buttons */
+    }
+    .top-nav-buttons button {
+        width: auto; /* Allow button to size to content */
+        padding: 8px 15px; /* Smaller padding for top buttons */
+        font-size: 13px;
+        margin-top: 0; /* Remove top margin */
+        display: inline-block; /* Allow multiple buttons on one line */
+        vertical-align: middle;
+    }
+    button#gotoPage2, /* Specific top nav button style */
+    button#backToPage1 { /* Specific top nav button style */
+      background-color: #6c757d; /* Gray for navigation */
+    }
+    button#editAI, button#editExcel {
+      background-color: #ffc107; /* Yellow for edit */
+      color: #333; /* Darker text for yellow background */
+    }
+    button#saveAI, button#saveExcel {
+      background-color: #28a745; /* Green for save */
+    }
+    button#cancelAI, button#cancelExcel {
+      background-color: #6c757d; /* Gray for cancel */
+    }
+
+    /* Container for pages */
+    #pageContainer {
+      position: relative;
+      width: 100%;
+      height: auto; /* Adjusts to content */
+      overflow: hidden; /* Hide overflow during transitions */
+    }
+    .page {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      transition: transform 0.3s ease-in-out; /* Smooth sliding transition */
+      padding-bottom: 20px; /* Add some padding at the bottom of each page */
+    }
+    .page.hidden-left {
+      transform: translateX(-100%);
+    }
+    .page.hidden-right {
+      transform: translateX(100%);
+    }
+    .page.active {
+      position: relative; /* Active page determines container height */
+      transform: translateX(0);
+    }
+
+    /* GitHub Section Styles */
+    #repoSelection, #repoDetails {
       margin-top: 20px;
       border-top: 1px solid #eee;
       padding-top: 15px;
     }
-    #repoList ul {
-      list-style: none;
-      padding: 0;
-    }
-    #repoList li {
-      background: #f9f9f9;
-      margin-bottom: 5px;
+    #repoSelect {
+      width: 100%;
       padding: 8px;
-      border-radius: 4px;
+      margin-top: 10px;
       border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
     }
-    #repoList li a {
-        text-decoration: none;
-        color: #0366d6;
-        font-weight: bold;
+    #repoDetails div {
+      background: #f9f9f9;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 5px;
     }
-    #repoList li a:hover {
-        text-decoration: underline;
+    #repoDetails strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+    #createFolderStatus {
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+
+    /* Settings Section Styles */
+    #settings-section {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"], input[type="password"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    /* Buttons in settings to be inline */
+    .settings-buttons button {
+      width: 32%; /* Approx for 3 buttons */
+      display: inline-block;
+      margin-top: 0px; /* Adjust margin for inline buttons */
+      vertical-align: middle;
     }
   </style>
 </head>
 <body>
-  <h2>GitHub Login</h2>
-  <p id="status">🔄 Checking token...</p>
-  <button id="loginBtn">Login with GitHub</button>
-  <button id="listReposBtn" style="display: none;">List My Repos</button> <button id="logoutBtn" style="background: #cb2431; display: none;">Logout</button> <div id="repoList">
-    <h3>Your Repositories</h3>
-    <p id="repoStatus">Click "List My Repos" to see them.</p>
-    <ul id="repos"></ul>
+  <div id="pageContainer">
+    <div id="page1" class="page active">
+      <h2>GitHub Integration</h2>
+      <div class="top-nav-buttons">
+          <button id="gotoPage2">Settings</button>
+      </div>
+      <p id="status">🔄 Checking GitHub status...</p>
+      <button id="loginBtn">Login with GitHub</button>
+      <button id="logoutBtn" style="display: none;">Logout</button>
+
+      <div id="repoSelection" style="display: none;">
+        <button id="listReposBtn">List My Repos</button>
+        <h3>Select a Repository</h3>
+        <select id="repoSelect">
+          <option value="">-- Please select a repo --</option>
+        </select>
+        <button id="viewRepoDetailsBtn">View Details</button>
+        <button id="createFolderBtn" style="display: none;">Create Test Folder</button>
+        <p id="createFolderStatus"></p>
+      </div>
+
+      <div id="repoDetails">
+        <h3>Selected Repository Details</h3>
+        <p id="repoDetailsStatus">Select a repository and click 'View Details'.</p>
+        <div id="selectedRepoInfo"></div>
+      </div>
+      </div>
+
+    <div id="page2" class="page hidden-right">
+      <h2>Settings</h2>
+      <div class="top-nav-buttons">
+          <button id="backToPage1">Back to GitHub</button>
+      </div>
+      <div id="settings-section">
+        <label for="aiKey">Gemini AI API Key</label>
+        <input type="password" id="aiKey" disabled placeholder="Enter your Gemini AI API Key">
+        <div class="settings-buttons">
+          <button id="editAI">Edit</button>
+          <button id="saveAI" style="display:none;">Save</button>
+          <button id="cancelAI" style="display:none;">Cancel</button>
+        </div>
+
+        <label for="excelKey">Google Excel Sheet Key</label>
+        <input type="password" id="excelKey" disabled placeholder="Enter your Google Excel Sheet Key">
+        <div class="settings-buttons">
+          <button id="editExcel">Edit</button>
+          <button id="saveExcel" style="display:none;">Save</button>
+          <button id="cancelExcel" style="display:none;">Cancel</button>
+        </div>
+      </div>
+      </div>
   </div>
 
   <script src="popup.js"></script>

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "LeetCode + GFG Extractor",
+  "version": "1.0",
+  "description": "Extract problem metadata from LeetCode and GeeksforGeeks",
+  "permissions": [
+    "storage",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://leetcode.com/problems/*"],
+      "js": ["extractor.js", "gemini.js", "leetcodeScript.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://practice.geeksforgeeks.org/problems/*"],
+      "js": ["gfgScript.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon48.png"
+    }
+  }
+}
