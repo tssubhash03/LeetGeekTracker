@@ -3,12 +3,14 @@
 let GEMINI_API_KEY = "";
 
 function getFormattedGeminiExplanation(code, problemTitle = "Unknown Problem") {
-  if (!GEMINI_API_KEY) {
-    showPopup("⚠️ Gemini API key missing!", "red");
-    return;
-  }
+  return new Promise((resolve, reject) => {
+    if (!GEMINI_API_KEY) {
+      showPopup("⚠️ Gemini API key missing!", "red");
+      reject("Missing API key");
+      return;
+    }
 
-  const prompt = `
+    const prompt = `
 Problem: ${problemTitle}
 
 Solution Approach: 
@@ -33,33 +35,34 @@ Space Complexity: O([complexity])
 [Note any additional data structures created]
 `;
 
-  fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4 }
-      })
-    }
-  )
-    .then(res => res.json())
-    .then(data => {
-      console.log("🔍 Raw Gemini Response:", data);
-
-      const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (aiReply) {
-        console.log("📘 Gemini AI Explanation:\n\n", aiReply);
-        showPopup("📘 Gemini explanation received!", "green");
-      } else {
-        console.error("❌ No valid response from Gemini:", data);
-        showPopup("❌ Gemini response error", "red");
+    fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.4 }
+        })
       }
-    })
-    .catch(error => {
-      console.error("❌ API Error:", error);
-      showPopup("❌ Gemini API call failed", "red");
-    });
+    )
+      .then(res => res.json())
+      .then(data => {
+        const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (aiReply) {
+          showPopup("📘 Gemini explanation received!", "green");
+          resolve(aiReply);
+        } else {
+          showPopup("❌ Gemini response error", "red");
+          reject("Invalid Gemini response");
+        }
+      })
+      .catch(error => {
+        console.error("❌ API Error:", error);
+        showPopup("❌ Gemini API call failed", "red");
+        reject(error);
+      });
+  });
 }
+

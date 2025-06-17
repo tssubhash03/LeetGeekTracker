@@ -1,16 +1,23 @@
 // leetcodeScript.js
 
-function waitForCodeAndExtract(callback, retries = 10) {
+async function waitForCodeAndExtract(callback, retries = 10) {
   const codeReady = document.querySelector("div.view-lines");
   if (codeReady) {
     const data = extractProblemInfo();
     console.log("✅ Accepted Submission Extracted:", data);
     showPopup("✅ Problem data extracted successfully!", "green");
 
-    const safeTitle = data.fullTitle.replace(/[^\w\s\-]/g, "").replace(/\s+/g, "_");
-    downloadJSON(data, `gfg_metadata_${safeTitle}.json`);
+    try {
+      const aiResponse = await getFormattedGeminiExplanation(data.submittedCode, data.fullTitle);
+      data.aiResponse = aiResponse;
+      console.log(aiResponse);
+      
+      const safeTitle = data.fullTitle.replace(/[^\w\s\-]/g, "").replace(/\s+/g, "_");
+      downloadJSON(data, `gfg_metadata_${safeTitle}.json`);
+    } catch (err) {
+      console.error("⚠️ Gemini explanation failed:", err);
+    }
 
-    getFormattedGeminiExplanation(data.submittedCode, data.fullTitle);
     if (callback) callback();
   } else if (retries > 0) {
     setTimeout(() => waitForCodeAndExtract(callback, retries - 1), 500);
@@ -18,6 +25,7 @@ function waitForCodeAndExtract(callback, retries = 10) {
     showPopup("❌ Code not loaded in time", "red");
   }
 }
+
 
 function runExtractor() {
   if (alreadyExtracted) return;
