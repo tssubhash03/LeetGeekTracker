@@ -6,7 +6,8 @@ async function waitForCodeAndExtract(callback, retries = 10) {
     const data = extractProblemInfo();
     console.log("✅ Accepted Submission Extracted:", data);
     showPopup("✅ Problem data extracted successfully!", "green");
-
+    const platform = "leetcode";
+    data.platform = platform;
     try {
       const aiResponse = await getFormattedGeminiExplanation(data.submittedCode, data.fullTitle);
       data.aiResponse = aiResponse;

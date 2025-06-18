@@ -138,26 +138,55 @@ function extractExamples() {
   return examples;
 }
 
+function extractComplexity() {
+  const complexities = {
+    time: "Not found",
+    space: "Not found"
+  };
+
+  const complexityBlocks = Array.from(document.querySelectorAll('div.flex.items-center.justify-between.gap-2'));
+  
+  complexityBlocks.forEach(block => {
+    const labels = block.querySelectorAll('div.text-sm');
+    const values = block.querySelectorAll('span.text-lg.font-semibold');
+
+    if (labels.length >= 2 && values.length >= 2) {
+      const label1 = labels[0]?.innerText?.toLowerCase();
+      const label2 = labels[1]?.innerText?.toLowerCase();
+
+      if (label1.includes("runtime") && label2.includes("memory")) {
+        complexities.time = values[0]?.innerText + " ms" || "Not found";
+        complexities.space = values[1]?.innerText + " MB" || "Not found";
+      }
+    }
+  });
+
+  return complexities;
+}
+
 function extractProblemInfo() {
   const { fullTitle, problemNumber, problemName } = extractTitleAndNumber();
+  const problemDescription = extractProblemDescription();
   const submittedCode = extractCode();
   const difficulty = extractDifficulty();
   const topics = extractTopics();
   const constraints = extractConstraints();
   const examples = extractExamples();
-  const problemDescription = extractProblemDescription();
+  const complexity = extractComplexity();
 
   return {
-    fullTitle,
-    problemNumber,
-    problemName,
-    submittedCode,
-    difficulty,
-    topics,
-    constraints,
-    problemDescription,
-    examples
-  };
+  fullTitle,
+  problemNumber,
+  problemName,
+  submittedCode,
+  difficulty,
+  topics,
+  constraints,
+  problemDescription,
+  examples,
+  complexity // 👈 Add this
+};
+
 }
 
 function downloadJSON(data, filename = "metadata.json") {
