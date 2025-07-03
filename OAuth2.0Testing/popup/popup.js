@@ -232,7 +232,7 @@ loginBtn.addEventListener("click", () => {
   const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI_FOR_IDENTITY)}&scope=repo&state=${crypto.randomUUID()}`;
 
   console.log("Initiating OAuth flow with Redirect URI:", REDIRECT_URI_FOR_IDENTITY);
-
+  
   browser.identity.launchWebAuthFlow({
     url: authUrl,
     interactive: true
